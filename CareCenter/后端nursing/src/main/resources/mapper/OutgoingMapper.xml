@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.OutgoingMapper">
+  <resultMap id="BaseResultMap" type="com.czr.customer.model.Outgoing">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="outgoing_reason" jdbcType="VARCHAR" property="outgoingReason" />
+    <result column="outgoing_time" jdbcType="TIMESTAMP" property="outgoingTime" />
+    <result column="expected_return_time" jdbcType="TIMESTAMP" property="expectedReturnTime" />
+    <result column="actual_return_time" jdbcType="TIMESTAMP" property="actualReturnTime" />
+    <result column="escorted" jdbcType="VARCHAR" property="escorted" />
+    <result column="relation" jdbcType="VARCHAR" property="relation" />
+    <result column="escorted_tel" jdbcType="VARCHAR" property="escortedTel" />
+    <result column="audit_status" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
+    <result column="audit_tine" jdbcType="TIMESTAMP" property="auditTine" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from outgoing
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.czr.customer.model.Outgoing">
+    insert into outgoing (id, create_time, create_by, 
+      update_time, update_by, is_deleted, 
+      outgoing_reason, outgoing_time, expected_return_time, 
+      actual_return_time, escorted, relation, 
+      escorted_tel, audit_status, audit_person, 
+      audit_tine, customer_id)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
+      #{outgoingReason,jdbcType=VARCHAR}, #{outgoingTime,jdbcType=TIMESTAMP}, #{expectedReturnTime,jdbcType=TIMESTAMP}, 
+      #{actualReturnTime,jdbcType=TIMESTAMP}, #{escorted,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, 
+      #{escortedTel,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{auditPerson,jdbcType=VARCHAR}, 
+      #{auditTine,jdbcType=TIMESTAMP}, #{customerId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.Outgoing">
+    update outgoing
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      outgoing_reason = #{outgoingReason,jdbcType=VARCHAR},
+      outgoing_time = #{outgoingTime,jdbcType=TIMESTAMP},
+      expected_return_time = #{expectedReturnTime,jdbcType=TIMESTAMP},
+      actual_return_time = #{actualReturnTime,jdbcType=TIMESTAMP},
+      escorted = #{escorted,jdbcType=VARCHAR},
+      relation = #{relation,jdbcType=VARCHAR},
+      escorted_tel = #{escortedTel,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      audit_person = #{auditPerson,jdbcType=VARCHAR},
+      audit_tine = #{auditTine,jdbcType=TIMESTAMP},
+      customer_id = #{customerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, outgoing_reason, 
+    outgoing_time, expected_return_time, actual_return_time, escorted, relation, escorted_tel, 
+    audit_status, audit_person, audit_tine, customer_id
+    from outgoing
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByIsDelete" parameterType="Outgoing" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, outgoing_reason,
+    outgoing_time, expected_return_time, actual_return_time, escorted, relation, escorted_tel,
+    audit_status, audit_person, audit_tine, customer_id
+    from outgoing
+--     where is_deleted=0
+    <where>
+      <if test="1==1">
+        and is_deleted=0
+      </if>
+      <if test="customerId!=null and customerId!=''">
+        and customer_id =#{customerId}
+      </if>
+    </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, outgoing_reason, 
+    outgoing_time, expected_return_time, actual_return_time, escorted, relation, escorted_tel, 
+    audit_status, audit_person, audit_tine, customer_id
+    from outgoing
+  </select>
+</mapper>

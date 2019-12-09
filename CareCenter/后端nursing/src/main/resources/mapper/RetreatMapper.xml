@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.RetreatMapper">
+  <resultMap id="BaseResultMap" type="com.czr.customer.model.Retreat">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="retreat_time" jdbcType="TIMESTAMP" property="retreatTime" />
+    <result column="retreat_type" jdbcType="VARCHAR" property="retreatType" />
+    <result column="retreat_reason" jdbcType="VARCHAR" property="retreatReason" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="audit_status" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
+    <result column="audit_tine" jdbcType="TIMESTAMP" property="auditTine" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from retreat
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.czr.customer.model.Retreat">
+    insert into retreat (id, create_time, create_by, 
+      update_time, update_by, is_deleted, 
+      retreat_time, retreat_type, retreat_reason, 
+      status, audit_status, audit_person, 
+      audit_tine, customer_id)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
+      #{retreatTime,jdbcType=TIMESTAMP}, #{retreatType,jdbcType=VARCHAR}, #{retreatReason,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{auditPerson,jdbcType=VARCHAR}, 
+      #{auditTine,jdbcType=TIMESTAMP}, #{customerId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.Retreat">
+    update retreat
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      retreat_time = #{retreatTime,jdbcType=TIMESTAMP},
+      retreat_type = #{retreatType,jdbcType=VARCHAR},
+      retreat_reason = #{retreatReason,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      audit_person = #{auditPerson,jdbcType=VARCHAR},
+      audit_tine = #{auditTine,jdbcType=TIMESTAMP},
+      customer_id = #{customerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, retreat_time, 
+    retreat_type, retreat_reason, status, audit_status, audit_person, audit_tine, customer_id
+    from retreat
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByIsDelete" parameterType="Retreat" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, retreat_time,
+    retreat_type, retreat_reason, status, audit_status, audit_person, audit_tine, customer_id
+    from retreat
+    <where>
+      <if test="1==1">
+        and is_deleted=0
+      </if>
+      <if test="customerId!=null and customerId!=''">
+        and customer_id = #{customerId}
+      </if>
+    </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, retreat_time, 
+    retreat_type, retreat_reason, status, audit_status, audit_person, audit_tine, customer_id
+    from retreat
+  </select>
+  <update id="agree" parameterType="Retreat">
+    update retreat set status=#{status} where id=#{id}
+  </update>
+</mapper>

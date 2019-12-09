@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.NursingLevelMapper">
+    <resultMap id="BaseResultMap" type="com.czr.customer.model.NursingLevel">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="create_by" jdbcType="VARCHAR" property="create_by" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="create_date" />
+        <result column="update_by" jdbcType="VARCHAR" property="update_by" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="update_date" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+        <result column="del_flag" jdbcType="INTEGER" property="del_flag" />
+        <result column="level_name" jdbcType="VARCHAR" property="level_name" />
+        <result column="level_status" jdbcType="INTEGER" property="level_status" />
+    </resultMap>
+
+    <!-- 新增完成后返回ID-->
+    <insert id="insert" parameterType="com.czr.customer.model.NursingLevel" useGeneratedKeys="true" keyProperty="id" >
+    insert into nursing_level (create_by,create_date,update_by,update_date,content,remarks,del_flag,level_name,
+    level_status)
+    values (#{create_by,jdbcType=VARCHAR}, #{create_date,jdbcType=TIMESTAMP},
+      #{update_by,jdbcType=VARCHAR}, #{update_date,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR},
+      #{remarks,jdbcType=VARCHAR},#{del_flag,jdbcType=INTEGER}, #{level_name,jdbcType=VARCHAR},
+      #{level_status,jdbcType=INTEGER}
+      )
+  </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.NursingLevel">
+        update nursing_level
+        <set>
+            <if test="update_by!=null and update_by!=''">
+                update_by= #{update_by,jdbcType=VARCHAR},
+            </if>
+            <if test="update_date!=null and update_date!=''">
+                update_date= #{update_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_flag!=null">
+                del_flag= #{del_flag,jdbcType=INTEGER},
+            </if>
+            <if test="level_name!=null and level_name!=''">
+                level_name= #{level_name,jdbcType=VARCHAR},
+            </if>
+            <if test="level_status!= null">
+                level_status= #{level_status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,create_by,create_date,update_by,update_date,content,remarks,del_flag,level_name,level_status
+        from nursing_level where del_flag=0
+    </select>
+
+    <select id="selectSpecify" parameterType="NursingLevel" resultMap="BaseResultMap">
+        select id,create_by,create_date,update_by,update_date,content,remarks,del_flag,level_name,level_status
+        from nursing_level
+        <where>
+                and del_flag=0
+            <if test="level_name != '' and level_name!=null">
+                and level_name=#{level_name}
+            </if>
+            <if test="level_status!=null">
+                and level_status=#{level_status}
+            </if>
+        </where>
+    </select>
+
+    <update id="delNursingLevel" parameterType="NursingLevel">
+      update nursing_level set del_flag=1 where id=#{id}
+    </update>
+
+</mapper>

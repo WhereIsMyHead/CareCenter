@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.FoodCustomerMapper">
+    <resultMap id="BaseResultMap" type="com.czr.customer.model.FoodCustomer">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="create_by" jdbcType="VARCHAR" property="create_by" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="create_date" />
+        <result column="update_by" jdbcType="VARCHAR" property="update_by" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="update_date" />
+        <result column="taste" jdbcType="VARCHAR" property="taste" />
+        <result column="attention" jdbcType="VARCHAR" property="attention" />
+        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+        <result column="del_flag" jdbcType="INTEGER" property="del_flag" />
+        <result column="customer_id" jdbcType="VARCHAR" property="customer_id" />
+        <result column="customer_name" jdbcType="VARCHAR" property="customer_name" />
+        <result column="bed_id" jdbcType="VARCHAR" property="bed_id"/>
+        <result column="room_number" jdbcType="VARCHAR" property="room_number"/>
+        <result column="customer_sex" jdbcType="INTEGER" property="customer_sex" />
+        <result column="customer_age" jdbcType="VARCHAR" property="customer_age" />
+    </resultMap>
+
+    <!-- 新增完成后返回ID-->
+    <insert id="insert" parameterType="com.czr.customer.model.FoodCustomer" useGeneratedKeys="true" keyProperty="id" >
+    insert into food_customer (create_by,create_date,update_by,update_date,taste,attention,remarks
+                  ,del_flag,customer_id)
+    values (#{create_by,jdbcType=VARCHAR}, #{create_date,jdbcType=TIMESTAMP},
+      #{update_by,jdbcType=VARCHAR}, #{update_date,jdbcType=TIMESTAMP}, #{taste,jdbcType=VARCHAR},
+        #{attention,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR},#{del_flag,jdbcType=INTEGER},
+        #{customer_id,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.FoodCustomer">
+        update food_customer
+        <set>
+            <if test="update_by!=null and update_by!=''">
+                update_by= #{update_by,jdbcType=VARCHAR},
+            </if>
+            <if test="update_date!=null">
+                update_date= #{update_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="taste!=null and taste!=''">
+                taste= #{taste,jdbcType=VARCHAR},
+            </if>
+            <if test="attention!=null and attention!=''">
+                attention= #{attention,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks!=null and remarks!=''">
+                remarks= #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="del_flag!=null">
+                del_flag= #{del_flag,jdbcType=INTEGER},
+            </if>
+<!--            <if test="customer_id!=null and customer_id!=''">-->
+<!--                customer_id= #{customer_id,jdbcType=VARCHAR},-->
+<!--            </if>-->
+        </set>
+        where customer_id = #{customer_id,jdbcType=VARCHAR}
+    </update>
+
+    <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+    <!--select id, main_class, sub_class, bname, isbn, detail, ori_price, cur_price, picture, -->
+    <!--page, publisher, author, new_book, hot_book, sale_book, rec_book, bdate, pub_date-->
+    <!--from book-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</select>-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select f.id,f.create_by,f.create_date,f.update_by,f.update_date,f.taste,f.attention,f.remarks
+                ,f.del_flag,f.customer_id,cu.customer_name,cu.customer_sex,cu.customer_age,cu.bed_id,cu.room_number
+        from customer cu join food_customer f on f.customer_id=cu.id where f.del_flag=0
+    </select>
+
+    <select id="selectSpecify" parameterType="FoodCustomer" resultMap="BaseResultMap">
+        select f.id,f.create_by,f.create_date,f.update_by,f.update_date,f.taste,f.attention,f.remarks
+        ,f.del_flag,f.customer_id,cu.customer_name,cu.customer_sex,cu.customer_age,cu.bed_id,cu.room_number
+        from food_customer f join customer cu on f.customer_id=cu.id
+        <where>
+            <if test="customer_id!= null and customer_id!=''">
+                and customer_id=#{customer_id}
+            </if>
+            <if test="customer_name!= null and customer_name!=''">
+                and customer_name=#{customer_name}
+            </if>
+            <if test="bed_id!=null and bed_id!=''">
+                and bed_id=#{bed_id}
+            </if>
+            <if test="room_number!=null and room_number!=''">
+                and room_number=#{room_number}
+            </if>
+        </where>
+    </select>
+
+    <update id="delFoodCustomer" parameterType="FoodCustomer">update food_customer set del_flag=1 where id=#{id}</update>
+
+    <update id="delFoodCustomer1" parameterType="FoodCustomer">
+        update food_customer set del_flag=1 where customer_id=#{customer_id}
+    </update>
+</mapper>

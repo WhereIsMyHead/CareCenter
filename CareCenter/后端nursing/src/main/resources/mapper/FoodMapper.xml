@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.FoodMapper">
+    <resultMap id="BaseResultMap" type="com.czr.customer.model.Food">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="create_by" jdbcType="VARCHAR" property="create_by" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="create_date" />
+        <result column="update_by" jdbcType="VARCHAR" property="update_by" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="update_date" />
+        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+        <result column="del_flag" jdbcType="INTEGER" property="del_flag" />
+        <result column="food_name" jdbcType="VARCHAR" property="name" />
+        <result column="food_type" jdbcType="INTEGER" property="type" />
+        <result column="food_tag" jdbcType="INTEGER" property="tag" />
+        <result column="food_price" jdbcType="REAL" property="price" />
+        <result column="food_picture" jdbcType="VARCHAR" property="picture" />
+        <result column="momal_flag" jdbcType="INTEGER" property="momal_flag" />
+        <result column="mon_flag" jdbcType="INTEGER" property="mon_flag" />
+        <result column="tue_flag" jdbcType="INTEGER" property="tue_flag" />
+        <result column="wed_flag" jdbcType="INTEGER" property="wed_flag" />
+        <result column="thu_flag" jdbcType="INTEGER" property="thu_flag" />
+        <result column="fri_flag" jdbcType="INTEGER" property="fri_flag" />
+        <result column="sat_flag" jdbcType="INTEGER" property="sat_flag" />
+        <result column="sun_flag" jdbcType="INTEGER" property="sun_flag" />
+        <result column="supply_type" jdbcType="INTEGER" property="supply_type" />
+    </resultMap>
+
+    <!-- 新增完成后返回ID-->
+    <insert id="insert" parameterType="com.czr.customer.model.Food" useGeneratedKeys="true" keyProperty="id" >
+    insert into food (create_by, create_date, update_by, update_date, remarks,
+    del_flag, food_name, food_type, food_tag, food_price, food_picture,
+    momal_flag, mon_flag, tue_flag, wed_flag, thu_flag, fri_flag,
+    sat_flag, sun_flag, supply_type)
+    values (#{create_by,jdbcType=VARCHAR}, #{create_date,jdbcType=TIMESTAMP},
+      #{update_by,jdbcType=VARCHAR}, #{update_date,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR},
+      #{del_flag,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+      #{tag,jdbcType=INTEGER}, #{price,jdbcType=REAL}, #{picture,jdbcType=VARCHAR},
+      #{momal_flag,jdbcType=INTEGER}, #{mon_flag,jdbcType=INTEGER}, #{tue_flag,jdbcType=INTEGER},
+      #{wed_flag,jdbcType=INTEGER}, #{thu_flag,jdbcType=INTEGER}, #{fri_flag,jdbcType=INTEGER},
+      #{sat_flag,jdbcType=INTEGER},#{sun_flag,jdbcType=INTEGER},#{supply_type,jdbcType=INTEGER}
+      )
+  </insert>
+
+    <!--update_by, update_date, remarks, del_flag, food_name, food_type,-->
+    <!--food_tag, food_price, food_picture, momal_flag, mon_flag, tue_flag, wed_flag, thu_flag, fri_flag,-->
+    <!--sat_flag, sun_flag, supply_type-->
+
+    <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.Food">
+        update food
+        <set>
+        <if test="update_by!=null and update_by!=''">
+            update_by= #{update_by,jdbcType=VARCHAR},
+        </if>
+        <if test="update_date!=null and update_date!=''">
+            update_date= #{update_date,jdbcType=TIMESTAMP},
+        </if>
+        <if test="remarks!=null and remarks!=''">
+            remarks= #{remarks,jdbcType=VARCHAR},
+        </if>
+        <if test="del_flag!=null">
+            del_flag= #{del_flag,jdbcType=INTEGER},
+        </if>
+        <if test="name!=null and name!=''">
+            food_name= #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="type!=null">
+            food_type= #{type,jdbcType=INTEGER},
+        </if>
+        <if test="tag!=null">
+            food_tag= #{tag,jdbcType=INTEGER},
+        </if>
+        <if test="price!=null and price!=''">
+            food_price= #{price,jdbcType=REAL},
+        </if>
+        <if test="picture!=null and picture!=''">
+            food_picture= #{picture,jdbcType=VARCHAR},
+        </if>
+        <if test="momal_flag!=null">
+            momal_flag= #{momal_flag,jdbcType=INTEGER},
+        </if>
+        <if test="mon_flag!=null">
+            mon_flag= #{mon_flag,jdbcType=INTEGER},
+        </if>
+        <if test="tue_flag!=null">
+            tue_flag= #{tue_flag,jdbcType=INTEGER},
+        </if>
+        <if test="wed_flag!=null">
+            wed_flag= #{wed_flag,jdbcType=INTEGER},
+        </if>
+        <if test="thu_flag!=null">
+            thu_flag= #{thu_flag,jdbcType=INTEGER},
+        </if>
+        <if test="fri_flag!=null">
+            fri_flag= #{fri_flag,jdbcType=INTEGER},
+        </if>
+        <if test="sat_flag!=null">
+            sat_flag= #{sat_flag,jdbcType=INTEGER},
+        </if>
+        <if test="sun_flag!=null">
+            sat_flag= #{sat_flag,jdbcType=INTEGER},
+        </if>
+        <if test="supply_type!=null">
+            sat_flag= #{sat_flag,jdbcType=INTEGER},
+        </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+    <!--select id, main_class, sub_class, bname, isbn, detail, ori_price, cur_price, picture, -->
+    <!--page, publisher, author, new_book, hot_book, sale_book, rec_book, bdate, pub_date-->
+    <!--from book-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</select>-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, create_by, create_date, update_by, update_date, remarks, del_flag, food_name, food_type,
+        food_tag, food_price, food_picture, momal_flag, mon_flag, tue_flag, wed_flag, thu_flag, fri_flag,
+        sat_flag, sun_flag, supply_type
+        from food where del_flag=0
+    </select>
+
+    <select id="selectSpecify" parameterType="Food" resultMap="BaseResultMap">
+        select id, create_by, create_date, update_by, update_date, remarks, del_flag, food_name, food_type,
+        food_tag, food_price, food_picture, momal_flag, mon_flag, tue_flag, wed_flag, thu_flag, fri_flag,
+        sat_flag, sun_flag, supply_type
+        from food
+        <where>
+            <if test="id !=null">
+                and id=#{id}
+            </if>
+            <if test="food_name!=null and food_name!=''">
+                and food_name=#{food_name}
+            </if>
+            <if test="mon_flag !=null">
+                and mon_flag=#{mon_flag}
+            </if>
+            <if test="tue_flag !=null">
+                and tue_flag=#{tue_flag}
+            </if>
+            <if test="wed_flag !=null">
+                and wed_flag=#{wed_flag}
+            </if>
+            <if test="thu_flag !=null">
+                and thu_flag=#{thu_flag}
+            </if>
+            <if test="fri_flag !=null">
+                and fri_flag=#{fri_flag}
+            </if>
+            <if test="sat_flag !=null">
+                and sat_flag=#{sat_flag}
+            </if>
+            <if test="sun_flag !=null">
+                and sun_flag=#{sun_flag}
+            </if>
+            <if test="momal_flag !=null">
+                and momal_flag=#{momal_flag}
+            </if>
+            <if test="supply_type !=null">
+                and supply_type=#{supply_type}
+            </if>
+                and del_flag=0
+        </where>
+    </select>
+
+    <update id="delFood" parameterType="Food">update food set del_flag=1 where id=#{id}</update>
+
+</mapper>

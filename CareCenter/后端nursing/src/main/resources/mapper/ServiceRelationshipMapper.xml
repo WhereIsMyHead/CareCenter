@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.ServiceRelationshipMapper">
+  <resultMap id="BaseResultMap" type="com.czr.customer.model.ServiceRelationship">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="nurse_id" jdbcType="INTEGER" property="nurseId" />
+    <result column="doctor_id" jdbcType="INTEGER" property="doctorId" />
+    <result column="care_worker_id" jdbcType="INTEGER" property="careWorkerId" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from service_relationship
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.czr.customer.model.ServiceRelationship">
+    insert into service_relationship (id, customer_id, nurse_id, 
+      doctor_id, care_worker_id, is_deleted, 
+      create_time, create_by, update_time, 
+      update_by)
+    values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{nurseId,jdbcType=INTEGER}, 
+      #{doctorId,jdbcType=INTEGER}, #{careWorkerId,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.ServiceRelationship">
+    update service_relationship
+    set customer_id = #{customerId,jdbcType=INTEGER},
+      nurse_id = #{nurseId,jdbcType=INTEGER},
+      doctor_id = #{doctorId,jdbcType=INTEGER},
+      care_worker_id = #{careWorkerId,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, customer_id, nurse_id, doctor_id, care_worker_id, is_deleted, create_time, 
+    create_by, update_time, update_by
+    from service_relationship
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByElement" parameterType="com.czr.customer.model.ServiceRelationship" resultMap="BaseResultMap">
+    select id, customer_id, nurse_id, doctor_id, care_worker_id
+    from service_relationship where is_deleted = 0
+    <trim prefix=" and " suffixOverrides="and" >
+      <if test="id != null" >
+        id = #{id,jdbcType=VARCHAR} and
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR} and
+      </if>
+      <if test="nurseId != null" >
+        nurse_id = #{nurseId,jdbcType=VARCHAR} and
+      </if>
+      <if test="doctorId != null" >
+        doctor_id = #{doctorId,jdbcType=VARCHAR} and
+      </if>
+      <if test="careWorkerId != null" >
+        care_worker_id = #{careWorkerId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+  <update id="update" parameterType="com.czr.customer.model.ServiceRelationship">
+    update service_relationship
+    set nurse_id=#{nurseId},
+    doctor_id=#{doctorId}, care_worker_id=#{careWorkerId}
+    where customer_id=#{customerId}
+  </update>
+</mapper>

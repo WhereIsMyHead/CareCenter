@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.CheckInMapper">
+  <resultMap id="BaseResultMap" type="com.czr.customer.model.CheckIn">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_age" jdbcType="INTEGER" property="customerAge" />
+    <result column="customer_sex" jdbcType="INTEGER" property="customerSex" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="room_number" jdbcType="VARCHAR" property="roomNumber" />
+    <result column="building_id" jdbcType="INTEGER" property="buildingId" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="elder_type" jdbcType="VARCHAR" property="elderType" />
+    <result column="checkin_date" jdbcType="TIMESTAMP" property="checkinDate" />
+    <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
+    <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
+    <result column="bed_id" jdbcType="INTEGER" property="bedId" />
+    <result column="psychosomatic_state" jdbcType="VARCHAR" property="psychosomaticState" />
+    <result column="attention" jdbcType="VARCHAR" property="attention" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+    <result column="marital_status" jdbcType="VARCHAR" property="maritalStatus" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="blood_type" jdbcType="VARCHAR" property="bloodType" />
+    <result column="filepath" jdbcType="VARCHAR" property="filepath" />
+    <result column="nursing_level" jdbcType="INTEGER" property="nursingLevel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.czr.customer.model.CheckIn" useGeneratedKeys="true" keyProperty="id">
+    insert into customer (create_time, create_by,
+      update_time, update_by, is_deleted, 
+      customer_name, customer_age, customer_sex, 
+      idcard, room_number, building_id, 
+      record_id, elder_type, checkin_date, 
+      expiration_date, contact_tel, bed_id, 
+      psychosomatic_state, attention, birthday, 
+      height, marital_status, weight, 
+      blood_type, filepath, nursing_level)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER},
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
+      #{customerName,jdbcType=VARCHAR}, #{customerAge,jdbcType=INTEGER}, #{customerSex,jdbcType=INTEGER}, 
+      #{idcard,jdbcType=VARCHAR}, #{roomNumber,jdbcType=VARCHAR}, #{buildingId,jdbcType=INTEGER}, 
+      #{recordId,jdbcType=INTEGER}, #{elderType,jdbcType=VARCHAR}, #{checkinDate,jdbcType=TIMESTAMP}, 
+      #{expirationDate,jdbcType=TIMESTAMP}, #{contactTel,jdbcType=VARCHAR}, #{bedId,jdbcType=INTEGER}, 
+      #{psychosomaticState,jdbcType=VARCHAR}, #{attention,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{height,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, 
+      #{bloodType,jdbcType=VARCHAR}, #{filepath,jdbcType=VARCHAR},#{nursingLevel,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.CheckIn">
+    update customer
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      customer_age = #{customerAge,jdbcType=INTEGER},
+      customer_sex = #{customerSex,jdbcType=INTEGER},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      room_number = #{roomNumber,jdbcType=VARCHAR},
+      building_id = #{buildingId,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
+      elder_type = #{elderType,jdbcType=VARCHAR},
+      checkin_date = #{checkinDate,jdbcType=TIMESTAMP},
+      expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
+      contact_tel = #{contactTel,jdbcType=VARCHAR},
+      bed_id = #{bedId,jdbcType=INTEGER},
+      psychosomatic_state = #{psychosomaticState,jdbcType=VARCHAR},
+      attention = #{attention,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      height = #{height,jdbcType=VARCHAR},
+      marital_status = #{maritalStatus,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      blood_type = #{bloodType,jdbcType=VARCHAR},
+      filepath = #{filepath,jdbcType=VARCHAR},
+      nursing_level = #{nursingLevel,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, customer_name, 
+    customer_age, customer_sex, idcard, room_number, building_id, record_id, elder_type, 
+    checkin_date, expiration_date, contact_tel, bed_id, psychosomatic_state, attention, 
+    birthday, height, marital_status, weight, blood_type, filepath, nursing_level
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByIdcard" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, customer_name,
+    customer_age, customer_sex, idcard, room_number, building_id, record_id, elder_type,
+    checkin_date, expiration_date, contact_tel, bed_id, psychosomatic_state, attention,
+    birthday, height, marital_status, weight, blood_type, filepath, nursing_level
+    from customer
+    where idcard = #{idcard,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, customer_name, 
+    customer_age, customer_sex, idcard, room_number, building_id, record_id, elder_type, 
+    checkin_date, expiration_date, contact_tel, bed_id, psychosomatic_state, attention, 
+    birthday, height, marital_status, weight, blood_type, filepath, nursing_level
+    from customer
+  </select>
+
+  <select id="selectByIsDelete" parameterType="CheckIn" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, customer_name,
+    customer_age, customer_sex, idcard, room_number, building_id, record_id, elder_type,
+    checkin_date, expiration_date, contact_tel, bed_id, psychosomatic_state, attention,
+    birthday, height, marital_status, weight, blood_type, filepath, nursing_level
+    from customer
+    <where>
+      <if test="1==1">
+        and is_deleted=0
+      </if>
+      <if test="roomNumber!=null and roomNumber!=''">
+        and room_number like concat(#{roomNumber},'%')
+      </if>
+      <if test="customerName!=null and customerName!=''">
+        and customer_name like concat(#{customerName},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czr.customer.mapper.BedMapper">
+  <resultMap id="BaseResultMap" type="com.czr.customer.model.Bed">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="room_number" jdbcType="VARCHAR" property="roomNumber" />
+    <result column="bed_status" jdbcType="VARCHAR" property="bedStatus" />
+    <result column="position_type" jdbcType="VARCHAR" property="positionType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bed
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.czr.customer.model.Bed">
+    insert into bed (id, create_time, create_by, 
+      update_time, update_by, is_deleted, 
+      room_number, bed_status, position_type, 
+      name, sort)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
+      #{roomNumber,jdbcType=VARCHAR}, #{bedStatus,jdbcType=VARCHAR}, #{positionType,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.czr.customer.model.Bed">
+    update bed
+    set
+      create_by = #{createBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      room_number = #{roomNumber,jdbcType=VARCHAR},
+      bed_status = #{bedStatus,jdbcType=VARCHAR},
+      position_type = #{positionType,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, room_number, 
+    bed_status, position_type, name, sort
+    from bed
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--按照其各属性查询-->
+  <select id="selectByElement" parameterType="com.czr.customer.model.Bed" resultMap="BaseResultMap">
+    select id, create_time, create_by, update_time, update_by, is_deleted, room_number, 
+    bed_status, position_type, name, sort
+    from bed where is_deleted = 0
+    <trim prefix=" and " suffixOverrides="and" >
+      <if test="id != null" >
+        id = #{id,jdbcType=VARCHAR} and
+      </if>
+      <if test="roomNumber != null" >
+        room_number = #{roomNumber,jdbcType=VARCHAR} and
+      </if>
+      <if test="bedStatus != null" >
+        bed_status = #{bedStatus,jdbcType=VARCHAR} and
+      </if>
+      <if test="positionType != null" >
+        position_type = #{positionType,jdbcType=VARCHAR} and
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR} and
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+</mapper>
